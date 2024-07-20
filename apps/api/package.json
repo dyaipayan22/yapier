@@ -1,13 +1,10 @@
 {
-  "name": "hooks",
+  "name": "api",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/index.js",
-    "dev": "tsup --watch --onSuccess \"node dist/index.js\"",
-    "build": "tsup",
-    "clean": "rm -rf dist"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
@@ -16,10 +13,13 @@
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.6",
     "tsup": "^8.2.0"
   },
   "dependencies": {
     "@repo/db": "workspace:*",
-    "express": "^4.19.2"
+    "@repo/schema": "workspace:*",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2"
   }
 }
