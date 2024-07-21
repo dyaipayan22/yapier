@@ -1,8 +1,26 @@
-import { findUserByEmail, findUserById } from '../repositories/userRepository';
+import { CreateUserInput } from '@repo/schema';
+import {
+  createUser,
+  getUserByEmail,
+  getUserById,
+} from '../repositories/userRepository';
 
-export async function getUserById(id: string) {
-  return await findUserById(id);
+export async function registerUser(registerUserInput: CreateUserInput) {
+  return await createUser(registerUserInput);
 }
-export async function getUserByEmail(email: string) {
-  return await findUserByEmail(email);
+
+export async function findUserById(id: string) {
+  const user = await getUserById(id);
+  if (!user) {
+    throw new Error('User not found');
+  }
+  return user;
+}
+
+export async function findUserByEmail(email: string) {
+  const user = await getUserByEmail(email);
+  if (!user) {
+    throw new Error('User not found');
+  }
+  return user;
 }

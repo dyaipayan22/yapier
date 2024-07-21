@@ -1,7 +1,3 @@
-export {
-  SignUpSchema,
-  SignInSchema,
-  type SignUp,
-  type SignIn,
-} from './authSchema';
+export { SignInInputSchema, type SignInInput } from './authSchema';
 export { CreateZapSchema, type CreateZap } from './zapSchema';
+export { CreateUserInputSchema, type CreateUserInput } from './userSchema';
