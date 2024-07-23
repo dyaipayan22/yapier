@@ -17,7 +17,7 @@ export async function signInUser(
       sameSite: 'none',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
-    res.json(accessToken);
+    res.json({ accessToken });
   } catch (error) {
     next(error);
   }
@@ -49,7 +49,7 @@ export async function refreshAccessToken(
           throw new Error('Unauthorized');
         }
         const accessToken = generateAccessToken(user.id);
-        res.json(accessToken);
+        res.json({ accessToken });
       }
     );
   } catch (error) {

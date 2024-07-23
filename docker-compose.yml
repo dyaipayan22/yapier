@@ -1,0 +1,15 @@
+services:
+  zapier-db-service:
+    image: postgres:16-alpine
+    container_name: zapier-db
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_USER: postgres
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+volumes:
+  pg_data:

@@ -5,7 +5,7 @@ const HeaderLayout = () => {
   return (
     <div className="h-full grid">
       <Header />
-      <div className="container mx-auto py-4">
+      <div className="container py-4">
         <Outlet />
       </div>
     </div>

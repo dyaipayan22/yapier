@@ -8,6 +8,9 @@
     "db:reset": "prisma migrate reset",
     "db:studio": "prisma studio"
   },
+  "prisma": {
+    "seed": "ts-node --transpile-only prisma/seed.ts"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

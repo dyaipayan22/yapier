@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+
+import defaultTheme from 'tailwindcss/defaultTheme';
 module.exports = {
   darkMode: ['class'],
   content: [
@@ -72,7 +74,7 @@ module.exports = {
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
       fontFamily: {
-        montserrat: ['Montserrat', 'sans-serif'],
+        sans: ['Inter', ...defaultTheme.fontFamily.sans],
       },
     },
   },

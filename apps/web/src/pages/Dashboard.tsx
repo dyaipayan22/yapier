@@ -1,5 +1,7 @@
+import ZapsTable from '@/components/ZapsTable';
+
 const Dashboard = () => {
-  return <div>Dashboard</div>;
+  return <ZapsTable />;
 };
 
 export default Dashboard;
