@@ -1,5 +1,7 @@
-import prisma from '@repo/db';
+import { PrismaClient } from '@repo/database';
 import { type CreateZap } from '@repo/schema';
+
+const prisma = new PrismaClient();
 
 export async function createZap(input: CreateZap) {
   await prisma.$transaction(async (tx) => {

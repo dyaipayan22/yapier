@@ -1,5 +1,7 @@
-import prisma from '@repo/db';
+import { PrismaClient } from '@repo/database';
 import { CreateUserInput } from '@repo/schema';
+
+const prisma = new PrismaClient();
 
 export async function createUser(createUserData: CreateUserInput) {
   return await prisma.user.create({

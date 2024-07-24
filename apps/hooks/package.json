@@ -19,7 +19,7 @@
     "tsup": "^8.2.0"
   },
   "dependencies": {
-    "@repo/db": "workspace:*",
+    "@repo/database": "workspace:*",
     "express": "^4.19.2"
   }
 }

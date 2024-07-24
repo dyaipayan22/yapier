@@ -1,7 +1,8 @@
 import express from 'express';
-import prisma from '@repo/db';
+import { PrismaClient } from '@repo/database';
 
 const app = express();
+const prisma = new PrismaClient();
 
 app.use(express.json());
 
@@ -27,4 +28,4 @@ app.use('/hooks/catch/:userId/:zapId', async (req, res) => {
   res.json('Webhook received');
 });
 
-app.listen(8000, () => console.log('Server is running'));
+app.listen(8001, () => console.log('Server is running'));
