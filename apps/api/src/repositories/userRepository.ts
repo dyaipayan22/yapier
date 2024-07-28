@@ -1,4 +1,4 @@
-import { PrismaClient } from '@repo/database';
+import { PrismaClient } from '@repo/database/client';
 import { CreateUserInput } from '@repo/schema';
 
 const prisma = new PrismaClient();

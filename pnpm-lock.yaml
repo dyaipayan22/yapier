@@ -45,6 +45,9 @@ importers:
       '@types/jsonwebtoken':
         specifier: ^9.0.6
         version: 9.0.6
+      esbuild:
+        specifier: ^0.23.0
+        version: 0.23.0
       tsup:
         specifier: ^8.2.0
         version: 8.2.0(jiti@1.21.6)(postcss@8.4.39)(typescript@5.4.5)(yaml@2.4.5)
@@ -73,12 +76,12 @@ importers:
 
   apps/processor:
     dependencies:
-      '@repo/db':
+      '@repo/database':
         specifier: workspace:*
-        version: link:../../packages/db
-      express:
-        specifier: ^4.19.2
-        version: 4.19.2
+        version: link:../../packages/database
+      kafkajs:
+        specifier: ^2.2.4
+        version: 2.2.4
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
@@ -86,9 +89,9 @@ importers:
       '@repo/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      tsup:
-        specifier: ^8.2.0
-        version: 8.2.0(jiti@1.21.6)(postcss@8.4.39)(typescript@5.4.5)(yaml@2.4.5)
+      esbuild:
+        specifier: ^0.23.0
+        version: 0.23.0
 
   apps/web:
     dependencies:
@@ -202,22 +205,6 @@ importers:
       prisma:
         specifier: ^5.17.0
         version: 5.17.0
-
-  packages/db:
-    dependencies:
-      '@prisma/client':
-        specifier: ^5.17.0
-        version: 5.17.0(prisma@5.17.0)
-    devDependencies:
-      '@types/node':
-        specifier: ^20.11.24
-        version: 20.11.24
-      prisma:
-        specifier: ^5.17.0
-        version: 5.17.0
-      ts-node:
-        specifier: ^10.9.2
-        version: 10.9.2(@types/node@20.11.24)(typescript@5.4.5)
 
   packages/eslint-config:
     devDependencies:
@@ -2943,6 +2930,10 @@ packages:
 
   jws@3.2.2:
     resolution: {integrity: sha512-YHlZCB6lMTllWDtSPHz/ZXTsi8S00usEV6v1tjq8tOUZzw7DpSDWVXjXDre6ed1w/pd495ODpHZYSdkRTsa0HA==}
+
+  kafkajs@2.2.4:
+    resolution: {integrity: sha512-j/YeapB1vfPT2iOIUn/vxdyKEuhuY2PxMBvf5JWux6iSaukAccrMtXEY/Lb7OvavDhOWME589bpLrEdnVHjfjA==}
+    engines: {node: '>=14.0.0'}
 
   language-subtag-registry@0.3.22:
     resolution: {integrity: sha512-tN0MCzyWnoz/4nHS6uxdlFWoUZT7ABptwKPQ52Ea7URk6vll88bWBVhodtnlfEuCcKWNGoc+uGbw1cwa9IKh/w==}
@@ -7286,6 +7277,8 @@ snapshots:
       jwa: 1.4.1
       safe-buffer: 5.2.1
 
+  kafkajs@2.2.4: {}
+
   language-subtag-registry@0.3.22: {}
 
   language-tags@1.0.9:
@@ -8363,6 +8356,7 @@ snapshots:
       typescript: 5.4.5
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
+    optional: true
 
   tsconfig-paths@3.14.2:
     dependencies:

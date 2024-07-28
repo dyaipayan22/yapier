@@ -1,4 +1,4 @@
-import { PrismaClient } from '@repo/database';
+import { PrismaClient } from '@repo/database/client';
 import { type CreateZap } from '@repo/schema';
 
 const prisma = new PrismaClient();

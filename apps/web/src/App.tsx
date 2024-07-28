@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard';
 import AuthLayout from './components/layout/AuthLayout';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
+import CreateZap from './pages/CreateZap';
 
 const routes = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const routes = createBrowserRouter([
       {
         path: 'dashboard',
         element: <Dashboard />,
+      },
+      {
+        path: 'zap/create',
+        element: <CreateZap />,
       },
     ],
   },

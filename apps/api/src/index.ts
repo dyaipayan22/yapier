@@ -1,3 +1,3 @@
 import app from './app';
 
-app.listen(8001, () => console.log('Server is running'));
+app.listen(8000, () => console.log('Server is running'));
