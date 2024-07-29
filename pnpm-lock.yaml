@@ -196,6 +196,25 @@ importers:
         specifier: ^5.3.4
         version: 5.3.4(@types/node@20.11.24)
 
+  apps/worker:
+    dependencies:
+      '@repo/database':
+        specifier: workspace:*
+        version: link:../../packages/database
+      kafkajs:
+        specifier: ^2.2.4
+        version: 2.2.4
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../../packages/eslint-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../../packages/typescript-config
+      esbuild:
+        specifier: ^0.23.0
+        version: 0.23.0
+
   packages/database:
     dependencies:
       '@prisma/client':
