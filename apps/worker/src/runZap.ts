@@ -1,7 +1,5 @@
 import { kafka } from './config/kafka';
-import { PrismaClient } from '@repo/database/client';
-
-const prisma = new PrismaClient();
+import prisma from '@repo/database';
 
 export async function executeZap() {
   const consumer = kafka.consumer({ groupId: '' });

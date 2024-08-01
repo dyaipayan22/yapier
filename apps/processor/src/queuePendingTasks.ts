@@ -1,7 +1,5 @@
-import { PrismaClient } from '@repo/database/client';
+import prisma from '@repo/database';
 import { kafka } from './config/kafka';
-
-const prisma = new PrismaClient();
 
 export async function queuePendingTasks() {
   const producer = kafka.producer();
