@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { signIn } from '../interactors/authInteractor';
 import jwt, { JwtPayload, Secret } from 'jsonwebtoken';
-import { getUserById } from '../repositories/userRepository';
-import { generateAccessToken } from '../utils/generateTokens';
+import prisma from '@repo/database';
+import { generateAccessToken, generateTokens } from '../utils/generateTokens';
+import { matchPassword } from '../utils/password';
 
 export async function signInUser(
   req: Request,
@@ -10,7 +10,13 @@ export async function signInUser(
   next: NextFunction
 ) {
   try {
-    const { accessToken, refreshToken } = await signIn(req.body);
+    const { email, password } = req.body;
+    const user = await prisma.user.findUnique({ where: email });
+
+    if (!user || (await matchPassword(password, user?.password)) == false)
+      throw new Error('Invalid Credentials');
+
+    const { accessToken, refreshToken } = generateTokens(user.id);
     res.cookie('jwt', refreshToken, {
       httpOnly: true,
       secure: true,
@@ -43,7 +49,10 @@ export async function refreshAccessToken(
           res.status(403);
           throw new Error('Forbidden');
         }
-        const user = await getUserById((decoded as JwtPayload)?.id);
+        const user = await prisma.user.findUnique({
+          where: { id: (decoded as JwtPayload)?.id },
+        });
+
         if (!user) {
           res.status(401);
           throw new Error('Unauthorized');
