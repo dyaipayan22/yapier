@@ -11,7 +11,7 @@ export async function queuePendingTasks() {
     });
 
     producer.send({
-      topic: process.env.TOPIC_NAME as string,
+      topic: `${process.env.KAFKA_TOPIC_NAME}`,
       messages: pendingRows.map((row) => {
         return {
           value: JSON.stringify({ zapRunId: row.zapRunId, stage: 0 }),

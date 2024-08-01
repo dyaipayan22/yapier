@@ -2,13 +2,16 @@ import { kafka } from './config/kafka';
 import prisma from '@repo/database';
 
 export async function executeZap() {
-  const consumer = kafka.consumer({ groupId: '' });
+  const consumer = kafka.consumer({ groupId: `${process.env.KAFKA_GROUP_ID}` });
   await consumer.connect();
 
   const producer = kafka.producer();
   await producer.connect();
 
-  await consumer.subscribe({ topic: '', fromBeginning: true });
+  await consumer.subscribe({
+    topic: `${process.env.KAFKA_TOPIC_NAME}`,
+    fromBeginning: true,
+  });
 
   await consumer.run({
     autoCommit: false,
@@ -47,6 +50,13 @@ export async function executeZap() {
 
       const zapRunMetadata = zapRunDetails?.metadata;
 
+      // if (currentAction.type.id === "email") {
+      //   const body = parse((currentAction.metadata as JsonObject)?.body as string, zapRunMetadata);
+      //   const to = parse((currentAction.metadata as JsonObject)?.email as string, zapRunMetadata);
+      //   console.log(`Sending out email to ${to} body is ${body}`)
+      //   await sendEmail(to, body);
+      // }
+
       const lastStage = (zapRunDetails?.zap?.actions?.length || 1) - 1;
       if (lastStage !== stage) {
         console.log('Pushing back to queue');
@@ -67,7 +77,7 @@ export async function executeZap() {
 
       await consumer.commitOffsets([
         {
-          topic: '',
+          topic: `${process.env.KAFKA_TOPIC_NAME}`,
           partition: partition,
           offset: (parseInt(message.offset) + 1).toString(),
         },

@@ -1,6 +1,6 @@
 import { Kafka } from 'kafkajs';
 
 export const kafka = new Kafka({
-  clientId: '',
-  brokers: [],
+  clientId: `${process.env.KAFKA_CLIENT_ID}`,
+  brokers: [`${process.env.KAFKA_HOST}`],
 });
