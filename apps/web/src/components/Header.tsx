@@ -6,16 +6,14 @@ const Header = () => {
   return (
     <header className="w-full h-14 border-b shadow-sm">
       <div className="container h-full flex items-center justify-between">
-        {/* <img src=''/> */}
-        <h1>Logo</h1>
+        <h1 className="font-heading text-3xl font-semibold before:content-['Y'] before:text-primary">
+          apier
+        </h1>
         <nav className="flex items-center gap-4">
           <Button variant={'ghost'} onClick={() => navigate('/auth/sign-in')}>
             Sign In
           </Button>
-          <Button
-            className="rounded-full px-8 font-medium"
-            onClick={() => navigate('/auth/sign-up')}
-          >
+          <Button className="px-8" onClick={() => navigate('/auth/sign-up')}>
             Sign Up
           </Button>
         </nav>

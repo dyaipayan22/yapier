@@ -75,6 +75,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ['Inter', ...defaultTheme.fontFamily.sans],
+        heading: ['Rubik', ...defaultTheme.fontFamily.sans],
       },
     },
   },
