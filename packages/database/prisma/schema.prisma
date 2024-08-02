@@ -8,11 +8,13 @@ datasource db {
 }
 
 model User{
-  id          String      @id @default(cuid())
-  name        String
-  email       String      @unique
-  password    String
-  zaps         Zap[]
+  id              String      @id @default(cuid())
+  name            String
+  email           String      @unique
+  password        String
+  verified        Boolean     @default(false)
+  verificationOtp Int
+  zaps            Zap[]
 }
 
 model Zap {

@@ -1,8 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import bcrypt from 'bcrypt';
 import prisma from '@repo/database';
 import { hashPassword } from '../utils/password';
-import { CreateUserInputSchema } from '@repo/schema';
 
 export const registerUser = async (
   req: Request,
@@ -23,6 +21,7 @@ export const registerUser = async (
         name,
         email,
         password: hashedPassword,
+        verificationOtp: 1234,
       },
     });
 
