@@ -10,10 +10,10 @@ const Header = () => {
           apier
         </h1>
         <nav className="flex items-center gap-4">
-          <Button variant={'ghost'} onClick={() => navigate('/auth/sign-in')}>
+          <Button variant={'ghost'} onClick={() => navigate('/sign-in')}>
             Sign In
           </Button>
-          <Button className="px-8" onClick={() => navigate('/auth/sign-up')}>
+          <Button className="px-8" onClick={() => navigate('/sign-up')}>
             Sign Up
           </Button>
         </nav>
