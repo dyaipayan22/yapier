@@ -2,7 +2,6 @@ import React from 'react';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
   CardFooter,
@@ -10,26 +9,32 @@ import {
 
 interface ICardWrapperProps {
   title: string;
-  description?: string;
   footer?: string;
+  linkUrl?: string;
+  linkText?: string;
   children: React.ReactNode;
 }
 
 const AuthFormWrapper = ({
   title,
-  description,
   footer,
+  linkUrl,
+  linkText,
   children,
 }: ICardWrapperProps) => {
   return (
-    <Card className="">
+    <Card className="bg-inherit">
       <CardHeader>
-        <CardTitle>{title}</CardTitle>
-        <CardDescription>{description}</CardDescription>
+        <CardTitle className="font-heading text-2xl font-medium text-center">
+          {title}
+        </CardTitle>
       </CardHeader>
       <CardContent>{children}</CardContent>
       <CardFooter>
-        <span>{footer}</span>
+        <span className="text-sm">{footer}</span>
+        <a href={linkUrl} className="text-sm">
+          {linkText}
+        </a>
       </CardFooter>
     </Card>
   );

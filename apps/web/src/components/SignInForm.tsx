@@ -38,8 +38,9 @@ const SignInForm = () => {
   return (
     <AuthFormWrapper
       title="Sign in to your account"
-      description="Get started by providing your credentials"
-      footer="Don't have an account? Sign up here"
+      footer="Don't have a Yapier account yet?"
+      linkText="Sign up"
+      linkUrl="/sign-in"
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

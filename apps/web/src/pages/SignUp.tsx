@@ -7,7 +7,7 @@ const SignUp = () => {
       <div className="grid items-center sm:grid-cols-[minmax(0px,1fr)_360px] lg:grid-cols-[minmax(0px,1fr)_430px] max-w-5xl gap-8">
         <div className="flex flex-col gap-8 max-w-md">
           <h1 className="text-4xl font-semibold font-heading leading-tight">
-            Join millions worldwide who automate their work using Zapier
+            Join millions worldwide who automate their work using Yapier
           </h1>
           <div className="flex flex-col gap-4">
             <CheckFeature label={'Easy setup, no coding required'} />
