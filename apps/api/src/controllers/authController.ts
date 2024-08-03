@@ -11,7 +11,7 @@ export async function signInUser(
 ) {
   try {
     const { email, password } = req.body;
-    const user = await prisma.user.findUnique({ where: email });
+    const user = await prisma.user.findUnique({ where: { email } });
 
     if (!user || (await matchPassword(password, user?.password)) == false)
       throw new Error('Invalid Credentials');

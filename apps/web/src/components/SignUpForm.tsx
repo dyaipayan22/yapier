@@ -13,6 +13,7 @@ import {
 import { Input } from './ui/input';
 import AuthFormWrapper from './AuthFormWrapper';
 import { Button } from './ui/button';
+import { toast } from 'sonner';
 
 const SignUpForm = () => {
   const form = useForm<CreateUserInput>({
@@ -26,12 +27,11 @@ const SignUpForm = () => {
 
   async function onSubmit(values: CreateUserInput) {
     try {
-      const response = await axiosPublic.post(`/api/v1/user/create`, values);
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    } finally {
+      await axiosPublic.post(`/api/v1/user/create`, values);
+      toast.success('Account created');
       form.reset();
+    } catch {
+      toast.error('Something went wrong');
     }
   }
   return (

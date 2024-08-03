@@ -8,10 +8,8 @@ import { authenticateUser } from '../middlewares/authMiddleware';
 
 const router: Router = Router();
 
-router.use(authenticateUser);
-
-router.post('/', createZap);
-router.get('/', getAllZaps);
-router.get('/:zapId', getZapById);
+router.post('/', authenticateUser, createZap);
+router.get('/', authenticateUser, getAllZaps);
+router.get('/:zapId', authenticateUser, getZapById);
 
 export default router;

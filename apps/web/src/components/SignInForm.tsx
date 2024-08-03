@@ -13,13 +13,14 @@ import { Input } from './ui/input';
 import AuthFormWrapper from './AuthFormWrapper';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from './ui/button';
-import axios from 'axios';
+import { toast } from 'sonner';
+import axiosPublic from '@/lib/axios';
 
 const SignInForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const from = location.state?.from?.pathname || '/';
+  const from = location.state?.from?.pathname || '/dashboard';
 
   const form = useForm<SignInInput>({
     resolver: zodResolver(SignInInputSchema),
@@ -31,12 +32,15 @@ const SignInForm = () => {
 
   async function onSubmit(values: SignInInput) {
     try {
-      await axios.post('/auth/signIn', values);
-      navigate(from, { replace: true });
-    } catch (error) {
-      console.log(error);
-    } finally {
+      const response = await axiosPublic.post('/api/v1/auth/signIn', values, {
+        withCredentials: true,
+      });
+      console.log(response.data);
+      toast.success('Login successful');
       form.reset();
+      navigate(from, { replace: true });
+    } catch {
+      toast.error('Something went wrong');
     }
   }
 
@@ -83,7 +87,7 @@ const SignInForm = () => {
           </div>
           <Button
             type="submit"
-            disabled={form.formState.isSubmitting || form.formState.isDirty}
+            disabled={form.formState.isSubmitting || !form.formState.isDirty}
             className="rounded-full w-full py-5 font-medium"
           >
             Continue

@@ -5,10 +5,11 @@ import userRouter from './routes/userRoutes';
 import actionRouter from './routes/actionRoutes';
 import triggerRouter from './routes/triggerRoutes';
 import zapRouter from './routes/zapRoutes';
+import corsOptions from './lib/cors';
 
 const app: Application = express();
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use('/api/v1/auth', authRouter);
