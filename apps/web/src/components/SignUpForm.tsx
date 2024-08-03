@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import axios from 'axios';
+import axiosPublic from '@/lib/axios';
 import { CreateUserInputSchema, type CreateUserInput } from '@repo/schema';
 import {
   Form,
@@ -26,8 +26,7 @@ const SignUpForm = () => {
 
   async function onSubmit(values: CreateUserInput) {
     try {
-      console.log(import.meta.env.VITE_API_SERVER_URL);
-      const response = await axios.post('/api/v1/user/create', values);
+      const response = await axiosPublic.post(`/api/v1/user/create`, values);
       console.log(response);
     } catch (error) {
       console.log(error);
