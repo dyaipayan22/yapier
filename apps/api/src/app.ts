@@ -1,4 +1,5 @@
 import express, { Application } from 'express';
+import cors from 'cors';
 import authRouter from './routes/authRoutes';
 import userRouter from './routes/userRoutes';
 import actionRouter from './routes/actionRoutes';
@@ -7,6 +8,7 @@ import zapRouter from './routes/zapRoutes';
 
 const app: Application = express();
 
+app.use(cors());
 app.use(express.json());
 
 app.use('/api/v1/auth', authRouter);

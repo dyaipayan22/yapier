@@ -30,9 +30,14 @@ const SignInForm = () => {
   });
 
   async function onSubmit(values: SignInInput) {
-    await axios.post('/auth/signIn', values);
-    console.log(values);
-    navigate(from, { replace: true });
+    try {
+      await axios.post('/auth/signIn', values);
+      navigate(from, { replace: true });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      form.reset();
+    }
   }
 
   return (
@@ -50,7 +55,9 @@ const SignInForm = () => {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel className="after:content-['*'] after:text-primary after:ml-0.5">
+                    Email
+                  </FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -63,7 +70,9 @@ const SignInForm = () => {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel className="after:content-['*'] after:text-primary after:ml-0.5">
+                    Password
+                  </FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>

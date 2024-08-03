@@ -26,10 +26,13 @@ const SignUpForm = () => {
 
   async function onSubmit(values: CreateUserInput) {
     try {
+      console.log(import.meta.env.VITE_API_SERVER_URL);
       const response = await axios.post('/api/v1/user/create', values);
       console.log(response);
     } catch (error) {
       console.log(error);
+    } finally {
+      form.reset();
     }
   }
   return (
@@ -45,7 +48,9 @@ const SignUpForm = () => {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel className="after:content-['*'] after:text-primary after:ml-0.5">
+                    Name
+                  </FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -58,7 +63,9 @@ const SignUpForm = () => {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel className="after:content-['*'] after:text-primary after:ml-0.5">
+                    Email
+                  </FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -71,7 +78,9 @@ const SignUpForm = () => {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel className="after:content-['*'] after:text-primary after:ml-0.5">
+                    Password
+                  </FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>

@@ -1,5 +1,5 @@
 import SignUpForm from '@/components/SignUpForm';
-import { CheckFeature } from './CheckFeature';
+import { CheckFeature } from '../components/CheckFeature';
 
 const SignUp = () => {
   return (
@@ -9,7 +9,7 @@ const SignUp = () => {
           <h1 className="text-4xl font-semibold font-heading leading-tight">
             Join millions worldwide who automate their work using Yapier
           </h1>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2">
             <CheckFeature label={'Easy setup, no coding required'} />
             <CheckFeature label={'Free forever for core features'} />
             <CheckFeature label={'14-day trial of premium features & apps'} />

@@ -4,7 +4,7 @@ export const CheckFeature = ({ label }: { label: string }) => {
       <div className="pr-4">
         <CheckMark />
       </div>
-      <span className="text-lg">{label}</span>
+      <span className="text-lg font-medium">{label}</span>
     </div>
   );
 };
