@@ -14,4 +14,6 @@ export const axiosPrivate = axios.create({
   withCredentials: true,
 });
 
+// axiosPrivate.interceptors.request.use((config) => {});
+
 export default axiosPublic;

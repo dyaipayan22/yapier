@@ -49,7 +49,7 @@ const SignInForm = () => {
       title="Sign in to your account"
       footer="Don't have a Yapier account yet?"
       linkText="Sign up"
-      linkUrl="/sign-in"
+      linkUrl="/sign-up"
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -78,7 +78,7 @@ const SignInForm = () => {
                     Password
                   </FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} type="password" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

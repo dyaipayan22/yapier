@@ -54,8 +54,12 @@ const ZapsTable = () => {
       <TableBody>
         {zaps?.map((zap, index) => (
           <TableRow key={index}>
-            <TableCell>{zap.triggers}</TableCell>
-            <TableCell>{zap.name}</TableCell>
+            <TableCell className="flex items-center gap-2">
+              {zap.triggers.map((trigger, index) => (
+                <div key={index}>{trigger}</div>
+              ))}
+            </TableCell>
+            <TableCell className="capitalize font-bold">{zap.name}</TableCell>
             <TableCell>{zap.lastEdit}</TableCell>
             <TableCell>
               <Switch checked={zap.running} />

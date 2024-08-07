@@ -6,6 +6,7 @@ import {
   CardTitle,
   CardFooter,
 } from './ui/card';
+import { Link } from 'react-router-dom';
 
 interface ICardWrapperProps {
   title: string;
@@ -31,10 +32,12 @@ const AuthFormWrapper = ({
       </CardHeader>
       <CardContent>{children}</CardContent>
       <CardFooter>
-        <span className="text-sm">{footer}</span>
-        <a href={linkUrl} className="text-sm">
-          {linkText}
-        </a>
+        <span className="text-sm mr-1">{footer}</span>
+        {linkText && linkUrl && (
+          <Link to={linkUrl} className="text-sm">
+            {linkText}
+          </Link>
+        )}
       </CardFooter>
     </Card>
   );

@@ -1,15 +1,38 @@
-import { Handle, Position } from '@xyflow/react';
-import { Button } from '../ui/button';
+import { useState } from "react";
+import { Button } from "../ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
+import { Input } from "../ui/input";
+import { Handle, Position } from "@xyflow/react";
+import { Label } from "../ui/label";
 
 const TriggerNode = () => {
+  const [trigger, setTrigger] = useState<string>("");
   return (
     <>
-      <Handle type="target" position={Position.Top} />
-      <div className="grid gap-2 p-2.5 w-[326px] rounded-md bg-white/45 shadow-md">
-        <div className="flex items-center justify-between">
-          <Button variant={'outline'}>Trigger</Button>
+      <div className="w-[326px] p-2.5 border-2 border-dashed border-secondary rounded-md bg-white">
+        <div className="flex flex-col gap-2">
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="outline">Trigger</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Available Triggers</DialogTitle>
+                <DialogDescription>
+                  Choose a trigger to get started
+                </DialogDescription>
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
+          <Label>Select the event that starts your Zap</Label>
         </div>
-        <span>Select trigger</span>
       </div>
       <Handle type="source" position={Position.Bottom} />
     </>

@@ -1,7 +1,7 @@
-import Flows from '@/components/Flows';
+import Flow from "@/components/react-flow/Flow";
 
 const CreateZap = () => {
-  return <Flows />;
+  return <Flow />;
 };
 
 export default CreateZap;
