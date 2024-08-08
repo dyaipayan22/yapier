@@ -1,8 +1,15 @@
-import { Request, Response, NextFunction } from 'express';
-import jwt, { JwtPayload, Secret } from 'jsonwebtoken';
-import prisma from '@repo/database';
-import { generateAccessToken, generateTokens } from '../utils/generateTokens';
-import { matchPassword } from '../utils/password';
+import { Request, Response, NextFunction } from "express";
+import jwt, { JwtPayload, Secret } from "jsonwebtoken";
+import prisma from "@repo/database";
+import { generateAccessToken, generateTokens } from "../utils/generateTokens";
+import { matchPassword } from "../utils/password";
+import { ApiResponse } from "../utils/apiResponse";
+import {
+  SanitizedUser,
+  sanitizedUserSchema,
+  signInInputSchema,
+} from "@repo/schema";
+import { ApiError } from "../utils/apiError";
 
 export async function signInUser(
   req: Request,
@@ -10,20 +17,39 @@ export async function signInUser(
   next: NextFunction
 ) {
   try {
-    const { email, password } = req.body;
-    const user = await prisma.user.findUnique({ where: { email } });
+    const { data, error } = signInInputSchema.safeParse(req.body);
+    if (error) throw new ApiError(422, error.message);
 
-    if (!user || (await matchPassword(password, user?.password)) == false)
-      throw new Error('Invalid Credentials');
+    const { email, password } = data;
 
-    const { accessToken, refreshToken } = generateTokens(user.id);
-    res.cookie('jwt', refreshToken, {
+    const existingUser = await prisma.user.findUnique({ where: { email } });
+
+    if (
+      !existingUser ||
+      (await matchPassword(password, existingUser?.password)) == false
+    )
+      throw new Error("Invalid Credentials");
+
+    const { accessToken, refreshToken } = generateTokens(existingUser.id);
+
+    const user = sanitizedUserSchema.parse(existingUser);
+
+    res.cookie("jwt", refreshToken, {
       httpOnly: true,
       secure: true,
-      sameSite: 'none',
+      sameSite: "none",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
-    res.json({ accessToken });
+
+    res
+      .status(200)
+      .json(
+        new ApiResponse<{ user: SanitizedUser; accessToken: string }>(
+          200,
+          { user, accessToken },
+          "Logged in"
+        )
+      );
   } catch (error) {
     next(error);
   }
@@ -38,7 +64,7 @@ export async function refreshAccessToken(
     const cookies = req.cookies;
     if (!cookies?.jwt) {
       res.status(401);
-      throw new Error('Unauthorized');
+      throw new Error("Unauthorized");
     }
     const refreshToken = cookies.jwt;
     jwt.verify(
@@ -47,7 +73,7 @@ export async function refreshAccessToken(
       async (error, decoded) => {
         if (error) {
           res.status(403);
-          throw new Error('Forbidden');
+          throw new Error("Forbidden");
         }
         const user = await prisma.user.findUnique({
           where: { id: (decoded as JwtPayload)?.id },
@@ -55,7 +81,7 @@ export async function refreshAccessToken(
 
         if (!user) {
           res.status(401);
-          throw new Error('Unauthorized');
+          throw new Error("Unauthorized");
         }
         const accessToken = generateAccessToken(user.id);
         res.json({ accessToken });
@@ -75,10 +101,10 @@ export async function signOutUser(
     const cookies = req.cookies;
     if (!cookies?.jwt) {
       res.status(204);
-      throw new Error('No cookies found');
+      throw new Error("No cookies found");
     }
-    res.clearCookie('jwt', { httpOnly: true });
-    res.json({ message: 'Cookie cleared' });
+    res.clearCookie("jwt", { httpOnly: true });
+    res.json({ message: "Cookie cleared" });
   } catch (error) {
     next(error);
   }

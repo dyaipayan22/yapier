@@ -1,14 +1,14 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Home from '@/pages/Home';
-import HeaderLayout from '@/components/layout/HeaderLayout';
-import Dashboard from './pages/Dashboard';
-import SignIn from './pages/SignIn';
-import SignUp from './pages/SignUp';
-import CreateZap from './pages/CreateZap';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Home from "@/pages/Home";
+import HeaderLayout from "@/components/layout/HeaderLayout";
+import Dashboard from "./pages/Dashboard";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
+import CreateZap from "./pages/CreateZap";
 
 const routes = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <HeaderLayout />,
     children: [
       {
@@ -16,19 +16,19 @@ const routes = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: 'sign-in',
+        path: "sign-in",
         element: <SignIn />,
       },
       {
-        path: 'sign-up',
+        path: "sign-up",
         element: <SignUp />,
       },
       {
-        path: 'dashboard',
+        path: "dashboard",
         element: <Dashboard />,
       },
       {
-        path: 'zap/create',
+        path: "zap/create",
         element: <CreateZap />,
       },
     ],

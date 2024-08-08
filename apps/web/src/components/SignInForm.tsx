@@ -1,6 +1,6 @@
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { SignInInputSchema, type SignInInput } from '@repo/schema';
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signInInputSchema, type SignInInput } from "@repo/schema";
 import {
   Form,
   FormControl,
@@ -8,39 +8,41 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from './ui/form';
-import { Input } from './ui/input';
-import AuthFormWrapper from './AuthFormWrapper';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Button } from './ui/button';
-import { toast } from 'sonner';
-import axiosPublic from '@/lib/axios';
+} from "./ui/form";
+import { Input } from "./ui/input";
+import AuthFormWrapper from "./AuthFormWrapper";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Button } from "./ui/button";
+import { toast } from "sonner";
+import axiosPublic from "@/lib/axios";
+import { useAuth } from "@/hooks/useAuth";
 
 const SignInForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { setAccessToken } = useAuth();
 
-  const from = location.state?.from?.pathname || '/dashboard';
+  const from = location.state?.from?.pathname || "/dashboard";
 
   const form = useForm<SignInInput>({
-    resolver: zodResolver(SignInInputSchema),
+    resolver: zodResolver(signInInputSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
   });
 
   async function onSubmit(values: SignInInput) {
     try {
-      const response = await axiosPublic.post('/api/v1/auth/signIn', values, {
+      const response = await axiosPublic.post("/api/v1/auth/signIn", values, {
         withCredentials: true,
       });
-      console.log(response.data);
-      toast.success('Login successful');
+      setAccessToken(response.data.payload.accessToken);
+      toast.success("Login successful");
       form.reset();
       navigate(from, { replace: true });
     } catch {
-      toast.error('Something went wrong');
+      toast.error("Something went wrong");
     }
   }
 
