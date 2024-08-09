@@ -10,15 +10,12 @@ import {
   signInInputSchema,
 } from "@repo/schema";
 import { ApiError } from "../utils/apiError";
+import { asyncHandler } from "../utils/asyncHandler";
 
-export async function signInUser(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  try {
+export const signInUser = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
     const { data, error } = signInInputSchema.safeParse(req.body);
-    if (error) throw new ApiError(422, error.message);
+    if (error) throw new ApiError(422, "Zod Error");
 
     const { email, password } = data;
 
@@ -50,17 +47,11 @@ export async function signInUser(
           "Logged in"
         )
       );
-  } catch (error) {
-    next(error);
   }
-}
+);
 
-export async function refreshAccessToken(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  try {
+export const refreshAccessToken = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
     const cookies = req.cookies;
     if (!cookies?.jwt) {
       res.status(401);
@@ -87,17 +78,11 @@ export async function refreshAccessToken(
         res.json({ accessToken });
       }
     );
-  } catch (error) {
-    next(error);
   }
-}
+);
 
-export async function signOutUser(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  try {
+export const signOutUser = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
     const cookies = req.cookies;
     if (!cookies?.jwt) {
       res.status(204);
@@ -105,7 +90,5 @@ export async function signOutUser(
     }
     res.clearCookie("jwt", { httpOnly: true });
     res.json({ message: "Cookie cleared" });
-  } catch (error) {
-    next(error);
   }
-}
+);

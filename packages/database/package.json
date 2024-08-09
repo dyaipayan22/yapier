@@ -5,6 +5,9 @@
   "exports": {
     ".": "./src/index.ts"
   },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "scripts": {
     "db:generate": "prisma generate",
     "db:push": "prisma db push --skip-generate"
@@ -13,7 +16,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "prisma": "^5.17.0"
+    "prisma": "^5.17.0",
+    "ts-node": "^10.9.2"
   },
   "dependencies": {
     "@prisma/client": "^5.17.0"

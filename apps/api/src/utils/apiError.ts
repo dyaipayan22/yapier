@@ -1,4 +1,5 @@
 class ApiError extends Error {
+  message: string;
   statusCode: number;
   data: null;
   success: boolean;
@@ -15,6 +16,7 @@ class ApiError extends Error {
     this.statusCode = statusCode;
     this.data = null;
     this.success = false;
+    this.message = message;
     this.errors = errors;
 
     if (stack) {

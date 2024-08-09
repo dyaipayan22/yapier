@@ -1,6 +1,6 @@
-import { Response, NextFunction } from 'express';
-import prisma from '@repo/database';
-import { AuthRequest } from '../types/AuthRequest';
+import { Response, NextFunction } from "express";
+import prisma from "@repo/database";
+import { AuthRequest } from "../types/AuthRequest";
 
 export const createZap = async (
   req: AuthRequest,
@@ -9,13 +9,14 @@ export const createZap = async (
 ) => {
   try {
     const userId = req.user;
+    if (!userId) throw new Error("User not authenticated");
     const { actions, availableTriggerId } = req.body;
 
     await prisma.$transaction(async (tx) => {
       const zap = await tx.zap.create({
         data: {
           userId,
-          triggerId: '',
+          triggerId: "",
           actions: {
             create: actions.map((x, index) => ({
               actionId: x.availableActionId,

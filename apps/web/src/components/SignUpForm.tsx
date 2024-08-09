@@ -1,7 +1,7 @@
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import axiosPublic from '@/lib/axios';
-import { CreateUserInputSchema, type CreateUserInput } from '@repo/schema';
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import axiosPublic from "@/lib/axios";
+import { createUserInputSchema, type CreateUserInput } from "@repo/schema";
 import {
   Form,
   FormControl,
@@ -9,29 +9,29 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from './ui/form';
-import { Input } from './ui/input';
-import AuthFormWrapper from './AuthFormWrapper';
-import { Button } from './ui/button';
-import { toast } from 'sonner';
+} from "./ui/form";
+import { Input } from "./ui/input";
+import AuthFormWrapper from "./AuthFormWrapper";
+import { Button } from "./ui/button";
+import { toast } from "sonner";
 
 const SignUpForm = () => {
   const form = useForm<CreateUserInput>({
-    resolver: zodResolver(CreateUserInputSchema),
+    resolver: zodResolver(createUserInputSchema),
     defaultValues: {
-      name: '',
-      email: '',
-      password: '',
+      name: "",
+      email: "",
+      password: "",
     },
   });
 
   async function onSubmit(values: CreateUserInput) {
     try {
       await axiosPublic.post(`/api/v1/user/create`, values);
-      toast.success('Account created');
+      toast.success("Account created");
       form.reset();
     } catch {
-      toast.error('Something went wrong');
+      toast.error("Something went wrong");
     }
   }
   return (
