@@ -1,15 +1,15 @@
-import { Request, Response, NextFunction } from 'express';
-import prisma from '@repo/database';
+import { Request, Response } from "express";
+import prisma from "@repo/database";
+import { asyncHandler } from "../utils/asyncHandler";
+import { ApiResponse } from "../utils/apiResponse";
 
-export const getAvailableActions = async (
-  _req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
+export const getAvailableActions = asyncHandler(
+  async (_req: Request, res: Response) => {
     const availableActions = await prisma.availableActions.findMany({});
-    res.status(200).json({ availableActions });
-  } catch (error) {
-    next(error);
+    res
+      .status(200)
+      .json(
+        new ApiResponse(200, availableActions, "Available actions fetched")
+      );
   }
-};
+);

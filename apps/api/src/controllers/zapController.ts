@@ -1,13 +1,12 @@
-import { Response, NextFunction } from "express";
+import { Response } from "express";
 import prisma from "@repo/database";
 import { AuthRequest } from "../types/AuthRequest";
+import { asyncHandler } from "../utils/asyncHandler";
+import { ApiError } from "../utils/apiError";
+import { ApiResponse } from "../utils/apiResponse";
 
-export const createZap = async (
-  req: AuthRequest,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
+export const createZap = asyncHandler(
+  async (req: AuthRequest, res: Response) => {
     const userId = req.user;
     if (!userId) throw new Error("User not authenticated");
     const { actions, availableTriggerId } = req.body;
@@ -43,20 +42,14 @@ export const createZap = async (
         },
       });
 
-      res.json({ zap });
+      res.status(200).json(new ApiResponse(200, zap, "Zap created"));
       return zap.id;
     });
-  } catch (error) {
-    next(error);
   }
-};
+);
 
-export const getAllZaps = async (
-  req: AuthRequest,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
+export const getAllZaps = asyncHandler(
+  async (req: AuthRequest, res: Response) => {
     const id = req.user;
     const zaps = await prisma.zap.findMany({
       where: {
@@ -76,20 +69,12 @@ export const getAllZaps = async (
       },
     });
 
-    return res.status(200).json({
-      zaps,
-    });
-  } catch (error) {
-    next(error);
+    return res.status(200).json(new ApiResponse(200, zaps, "Zaps fetched"));
   }
-};
+);
 
-export const getZapById = async (
-  req: AuthRequest,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
+export const getZapById = asyncHandler(
+  async (req: AuthRequest, res: Response) => {
     const id = req.user;
     const zapId = req.params.zapId;
 
@@ -112,10 +97,8 @@ export const getZapById = async (
       },
     });
 
-    return res.status(200).json({
-      zap,
-    });
-  } catch (error) {
-    next(error);
+    if (!zap) throw new ApiError(404, "Zap not found");
+
+    return res.status(200).json(new ApiResponse(200, zap, "Zap details"));
   }
-};
+);

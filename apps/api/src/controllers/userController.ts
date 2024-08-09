@@ -1,19 +1,18 @@
-import { Request, Response, NextFunction } from 'express';
-import prisma from '@repo/database';
-import { hashPassword } from '../utils/password';
-import { generateOtp } from '../utils/generateOtp';
+import { Request, Response } from "express";
+import prisma from "@repo/database";
+import { hashPassword } from "../utils/password";
+import { generateOtp } from "../utils/generateOtp";
+import { asyncHandler } from "../utils/asyncHandler";
+import { ApiResponse } from "../utils/apiResponse";
+import { SanitizedUser, sanitizedUserSchema } from "@repo/schema";
 
-export const registerUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
+export const registerUser = asyncHandler(
+  async (req: Request, res: Response) => {
     const { name, email, password } = req.body;
 
     const existingUser = await prisma.user.findUnique({ where: { email } });
 
-    if (existingUser) throw new Error('User already exists');
+    if (existingUser) throw new Error("User already exists");
 
     const hashedPassword = await hashPassword(password);
     const otp = generateOtp();
@@ -27,8 +26,10 @@ export const registerUser = async (
       },
     });
 
-    res.status(200).json(user);
-  } catch (error) {
-    next(error);
+    const sanitizedUser = sanitizedUserSchema.parse(user);
+
+    res
+      .status(200)
+      .json(new ApiResponse<SanitizedUser>(200, sanitizedUser, "User created"));
   }
-};
+);
