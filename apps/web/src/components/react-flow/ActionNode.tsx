@@ -1,3 +1,4 @@
+import AvailableActions from "../AvailableActions";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -8,7 +9,6 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { Handle, NodeProps, Position, useReactFlow } from "@xyflow/react";
-// import { Label } from "../ui/label";
 
 const ActionNode = ({ data, id }: NodeProps) => {
   const { setNodes } = useReactFlow();
@@ -27,9 +27,10 @@ const ActionNode = ({ data, id }: NodeProps) => {
                 <DialogHeader>
                   <DialogTitle>Available Actions</DialogTitle>
                   <DialogDescription>
-                    Choose a trigger to get started
+                    Choose an action for your trigger
                   </DialogDescription>
                 </DialogHeader>
+                <AvailableActions />
               </DialogContent>
             </Dialog>
             <Button
@@ -42,7 +43,6 @@ const ActionNode = ({ data, id }: NodeProps) => {
               Delete
             </Button>
           </div>
-          {/* <Label>{data.label}</Label> */}
         </div>
       </div>
       <Handle type="source" position={Position.Bottom} />

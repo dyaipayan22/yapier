@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -11,9 +10,9 @@ import {
 import { Input } from "../ui/input";
 import { Handle, Position } from "@xyflow/react";
 import { Label } from "../ui/label";
+import AvailableTriggers from "../AvailableTriggers";
 
 const TriggerNode = () => {
-  const [trigger, setTrigger] = useState<string>("");
   return (
     <>
       <div className="w-[326px] p-2.5 border-2 border-dashed border-secondary rounded-md bg-white">
@@ -29,6 +28,7 @@ const TriggerNode = () => {
                   Choose a trigger to get started
                 </DialogDescription>
               </DialogHeader>
+              <AvailableTriggers />
             </DialogContent>
           </Dialog>
           <Label>Select the event that starts your Zap</Label>

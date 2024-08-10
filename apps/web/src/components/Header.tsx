@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuthStore } from "@/store/authStore";
 
 const Header = () => {
   const navigate = useNavigate();
-  const { token } = useAuth();
+  const { resetAuth, token, user } = useAuthStore();
   return (
     <header className="w-full h-14 border-b shadow-sm">
       <div className="container h-full flex items-center justify-between">
@@ -12,8 +12,13 @@ const Header = () => {
           apier
         </h1>
         <nav className="flex items-center gap-4">
-          {token ? (
-            <Button variant={"outline"}>Logout </Button>
+          {token && user ? (
+            <>
+              <Button variant={"outline"} onClick={() => resetAuth()}>
+                Logout{" "}
+              </Button>
+              <span>{user.name}</span>
+            </>
           ) : (
             <>
               <Button variant={"ghost"} onClick={() => navigate("/sign-in")}>

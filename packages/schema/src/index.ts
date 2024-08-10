@@ -1,5 +1,14 @@
 export { signInInputSchema, type SignInInput } from "./authSchema";
-export { CreateZapSchema, type CreateZap } from "./zapSchema";
+export {
+  createZapSchema,
+  zapSchema,
+  triggerSchema,
+  actionSchema,
+  type CreateZap,
+  type Zap,
+  type AvailableAction,
+  type AvailableTrigger,
+} from "./zapSchema";
 export {
   createUserInputSchema,
   sanitizedUserSchema,

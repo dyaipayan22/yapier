@@ -15,12 +15,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
 import axiosPublic from "@/lib/axios";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuthStore } from "@/store/authStore";
 
 const SignInForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { setAccessToken } = useAuth();
+  const setAuth = useAuthStore((state) => state.setAuth);
 
   const from = location.state?.from?.pathname || "/dashboard";
 
@@ -37,7 +37,8 @@ const SignInForm = () => {
       const response = await axiosPublic.post("/api/v1/auth/signIn", values, {
         withCredentials: true,
       });
-      setAccessToken(response.data.payload.accessToken);
+      const { user, accessToken } = response.data.payload;
+      setAuth(user, accessToken);
       toast.success("Login successful");
       form.reset();
       navigate(from, { replace: true });

@@ -1,15 +1,15 @@
 import axiosPublic from "@/lib/axios";
-import { useAuth } from "./useAuth";
+import { useAuthStore } from "@/store/authStore";
 
 export const useRefreshToken = () => {
-  const { setAccessToken } = useAuth();
+  const setRefreshedToken = useAuthStore((state) => state.setRefreshedToken);
 
   const refresh = async () => {
     const response = await axiosPublic.get("/api/v1/auth/refresh", {
       withCredentials: true,
     });
-    setAccessToken(response.data.accessToken);
-    return response.data.accessToken;
+    setRefreshedToken(response.data.payload);
+    return response.data.payload;
   };
 
   return refresh;

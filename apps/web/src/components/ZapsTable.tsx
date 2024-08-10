@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -8,66 +8,69 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from './ui/table';
-import { axiosPrivate } from '@/lib/axios';
-import { Switch } from './ui/switch';
+} from "./ui/table";
+import { Zap } from "@repo/schema";
+import { useAxiosPrivate } from "@/hooks/useAxiosPrivate";
 
-const zaps = [
-  {
-    triggers: ['a', 'b'],
-    name: 'trigger',
-    lastEdit: '2d',
-    running: true,
-  },
-  {
-    triggers: ['a', 'b'],
-    name: 'trigger 2',
-    lastEdit: '3d',
-    running: false,
-  },
-];
+// const zaps = [
+//   {
+//     triggers: ["a", "b"],
+//     name: "trigger",
+//     lastEdit: "2d",
+//     running: true,
+//   },
+//   {
+//     triggers: ["a", "b"],
+//     name: "trigger 2",
+//     lastEdit: "3d",
+//     running: false,
+//   },
+// ];
 
 const ZapsTable = () => {
-  // const [zaps, setZaps] = useState();
+  const axiosPrivate = useAxiosPrivate();
+  const [zaps, setZaps] = useState<Zap[]>([]);
 
-  // async function fetchZaps() {
-  //   await axiosPrivate.get('/api/v1/zap').then((res) => {
-  //     console.log(res);
-  //     setZaps(res.data);
-  //   });
-  // }
-  // useEffect(() => {
-  //   fetchZaps();
-  // }, []);
+  async function fetchZaps() {
+    await axiosPrivate.get("/api/v1/zap").then((res) => {
+      setZaps(res.data.payload);
+    });
+  }
+  useEffect(() => {
+    fetchZaps();
+  }, [zaps]);
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Triggers</TableHead>
-          <TableHead>Name</TableHead>
-          <TableHead>Last Edit</TableHead>
-          <TableHead>Running</TableHead>
-        </TableRow>
-      </TableHeader>
+    <>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Triggers</TableHead>
+            <TableHead>Name</TableHead>
+            <TableHead>Last Edit</TableHead>
+            <TableHead>Running</TableHead>
+          </TableRow>
+        </TableHeader>
 
-      <TableBody>
+        {/* <TableBody>
         {zaps?.map((zap, index) => (
           <TableRow key={index}>
-            <TableCell className="flex items-center gap-2">
-              {zap.triggers.map((trigger, index) => (
-                <div key={index}>{trigger}</div>
-              ))}
+          <TableCell className="flex items-center gap-2">
+          {zap.triggers.map((trigger, index) => (
+            <div key={index}>{trigger}</div>
+            ))}
             </TableCell>
             <TableCell className="capitalize font-bold">{zap.name}</TableCell>
             <TableCell>{zap.lastEdit}</TableCell>
             <TableCell>
-              <Switch checked={zap.running} />
+            <Switch checked={zap.running} />
             </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+            </TableRow>
+            ))}
+            </TableBody> */}
+      </Table>
+      <span>{zaps.length}</span>
+    </>
   );
 };
 

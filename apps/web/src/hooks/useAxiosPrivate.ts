@@ -1,16 +1,16 @@
 import { useEffect } from "react";
 import { axiosPrivate } from "@/lib/axios";
 import { useRefreshToken } from "./useRefreshToken";
-import { useAuth } from "./useAuth";
+import { useAuthStore } from "@/store/authStore";
 
 export const useAxiosPrivate = () => {
   const refresh = useRefreshToken();
-  const { token } = useAuth();
+  const token = useAuthStore((state) => state.token);
 
   useEffect(() => {
     const requestIntercept = axiosPrivate.interceptors.request.use(
       (config) => {
-        if (!config.headers.Authorization) {
+        if (!config.headers.Authorization && token !== null) {
           config.headers.Authorization = `Bearer ${token}`;
         }
         return config;
