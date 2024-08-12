@@ -4,22 +4,21 @@ export const initialNodes: Node[] = [
   {
     id: "1",
     position: { x: 100, y: 100 },
-    data: { name: "Select Trigger" },
+    data: { triggerId: "", triggerName: "", triggerImg: "" },
     type: "trigger",
   },
   {
     id: "2",
     position: { x: 100, y: 300 },
-    data: { name: "Select Action" },
+    data: { actionId: "", actionName: "", actionImg: "", metadata: "" },
     type: "action",
   },
 ];
 
 export const initialEdges: Edge[] = [
-  // {
-  //   id: "ed-1",
-  //   source: "1",
-  //   target: "2",
-  //   type: "custom",
-  // },
+  {
+    id: "ed-1",
+    source: "1",
+    target: "2",
+  },
 ];

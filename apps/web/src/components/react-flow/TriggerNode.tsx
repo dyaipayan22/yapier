@@ -1,4 +1,3 @@
-import { Button } from "../ui/button";
 import {
   Dialog,
   DialogContent,
@@ -7,19 +6,35 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import { Input } from "../ui/input";
-import { Handle, Position } from "@xyflow/react";
-import { Label } from "../ui/label";
+import { Handle, Node, NodeProps, Position } from "@xyflow/react";
 import AvailableTriggers from "../AvailableTriggers";
+import { Label } from "@radix-ui/react-label";
+import { Button } from "../ui/button";
 
-const TriggerNode = () => {
+type Trigger = Node<
+  { triggerId: string; triggerName: string; triggerImg: string },
+  "trigger"
+>;
+
+const TriggerNode = ({ data }: NodeProps<Trigger>) => {
   return (
     <>
       <div className="w-[326px] p-2.5 border-2 border-dashed border-secondary rounded-md bg-white">
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-4">
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="outline">Trigger</Button>
+              {data.triggerId.length === 0 ? (
+                <Button variant={"outline"} className="w-min">
+                  Trigger
+                </Button>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <img src={data.triggerImg} className="w-6 h-6" />
+                  <Label className="text-base font-bold">
+                    {data.triggerName}
+                  </Label>
+                </div>
+              )}
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
@@ -31,7 +46,9 @@ const TriggerNode = () => {
               <AvailableTriggers />
             </DialogContent>
           </Dialog>
-          <Label>Select the event that starts your Zap</Label>
+          {data.triggerName === "Webhook" && (
+            <span className="font-medium">Catch Webhook</span>
+          )}
         </div>
       </div>
       <Handle type="source" position={Position.Bottom} />

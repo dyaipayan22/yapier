@@ -1,8 +1,13 @@
 import axiosPublic from "@/lib/axios";
 import { AvailableAction } from "@repo/schema";
 import { useEffect, useState } from "react";
+import { Button } from "./ui/button";
+import { useNodeId, useReactFlow } from "@xyflow/react";
+import { DialogClose } from "./ui/dialog";
 
 const AvailableActions = () => {
+  const nodeId = useNodeId();
+  const { updateNodeData } = useReactFlow();
   const [actions, setActions] = useState<AvailableAction[]>([]);
 
   async function fetchAvailableActions() {
@@ -10,6 +15,14 @@ const AvailableActions = () => {
       .get("/api/v1/action/available")
       .then((res) => setActions(res.data.payload));
   }
+
+  const setActionData = (action: AvailableAction) => {
+    updateNodeData(nodeId as string, {
+      actionId: action.id,
+      actionName: action.name,
+      actionImg: action.image,
+    });
+  };
 
   useEffect(() => {
     fetchAvailableActions();
@@ -20,15 +33,17 @@ const AvailableActions = () => {
       {actions.length > 0 ? (
         <>
           {actions.map((action) => (
-            <div
-              className="w-full flex items-center gap-4 border rounded-md shadow-sm p-2 cursor-pointer hover:bg-[#f2f2f2] ease-in"
-              key={action.id}
-            >
-              <img src={action.image} className="w-8 h-8" />
-              <h1 className="font-medium font-heading text-lg">
-                {action.name}
-              </h1>
-            </div>
+            <DialogClose key={action.id}>
+              <Button
+                variant={"link"}
+                className="w-full flex items-center justify-start gap-4 border-2 py-6"
+                key={action.id}
+                onClick={() => setActionData(action)}
+              >
+                <img src={action.image} className="w-8 h-8" />
+                <h1 className="font-bold">{action.name}</h1>
+              </Button>
+            </DialogClose>
           ))}
         </>
       ) : (
