@@ -8,9 +8,6 @@ import {
   EdgeTypes,
   ReactFlowProvider,
   BackgroundVariant,
-  getIncomers,
-  getOutgoers,
-  getConnectedEdges,
 } from "@xyflow/react";
 import { initialEdges, initialNodes } from "./workflow-constants";
 import TriggerNode from "./TriggerNode";
@@ -18,7 +15,9 @@ import ActionNode from "./ActionNode";
 import CustomEdge from "./CustomEdge";
 import { Button } from "../ui/button";
 import { useAxiosPrivate } from "@/hooks/useAxiosPrivate";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 const nodeTypes: NodeTypes = {
   trigger: TriggerNode,
@@ -30,44 +29,27 @@ const edgeTypes: EdgeTypes = {
 };
 
 const Flow = () => {
+  const navigate = useNavigate();
   const [clicked, setClicked] = useState<number>(0);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const axiosPrivate = useAxiosPrivate();
-  console.log(nodes);
-  console.log(edges);
 
   async function createZap() {
-    // await axiosPrivate.post('/api/v1/zap/create')
-    console.log("Create Zap");
+    try {
+      await axiosPrivate.post("/api/v1/zap", {
+        availableTriggerId: nodes[0].data.triggerId,
+        actions: nodes.slice(1).map((action) => ({
+          availableActionId: action.data.actionId,
+          actionMetadata: JSON.parse(action.data.metadata as string),
+        })),
+      });
+      toast.success("Your zap has been created");
+      navigate("/dashboard");
+    } catch {
+      toast.error("Something went wrong");
+    }
   }
-
-  const onNodesDelete = useCallback(
-    (deleted) => {
-      setEdges(
-        deleted.reduce((acc, node) => {
-          const incomers = getIncomers(node, nodes, edges);
-          const outgoers = getOutgoers(node, nodes, edges);
-          const connectedEdges = getConnectedEdges([node], edges);
-
-          const remainingEdges = acc.filter(
-            (edge) => !connectedEdges.includes(edge)
-          );
-
-          const createdEdges = incomers.flatMap(({ id: source }) =>
-            outgoers.map(({ id: target }) => ({
-              id: `${source}->${target}`,
-              source,
-              target,
-            }))
-          );
-
-          return [...remainingEdges, ...createdEdges];
-        }, edges)
-      );
-    },
-    [nodes, edges]
-  );
 
   const addNode = async () => {
     setNodes((prevNodes) => [
@@ -112,7 +94,6 @@ const Flow = () => {
         zoomOnScroll={false}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
-        onNodesDelete={onNodesDelete}
       >
         <Background variant={BackgroundVariant.Lines} gap={10} />
         <div className="flex items-center gap-4 absolute right-4 top-4">

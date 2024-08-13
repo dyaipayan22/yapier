@@ -1,6 +1,5 @@
 import { TrashIcon } from "@radix-ui/react-icons";
 import AvailableActions from "../AvailableActions";
-import { Button } from "../ui/button";
 import {
   Dialog,
   DialogContent,
@@ -19,7 +18,7 @@ import {
 } from "@xyflow/react";
 import { Label } from "../ui/label";
 import SelectActionEvent from "../SelectActionEvent";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export type Action = Node<
   { actionId: string; actionName: string; actionImg: string; metadata: string },
@@ -33,7 +32,31 @@ const ActionNode = ({ data }: NodeProps<Action>) => {
 
   const deleteNode = () => {
     setNodes((prevNodes) => prevNodes.filter((node) => node.id !== nodeId));
+    setClicked((prev) => prev + 1);
   };
+
+  const adjustEdges = () => {
+    setEdges((prevEdges) => {
+      const index = prevEdges.findIndex(
+        (edge) => edge.target === nodeId?.toString()
+      );
+      if (index === prevEdges.length - 1) {
+        prevEdges.splice(index, 1);
+        return prevEdges;
+      } else {
+        prevEdges[index].target = prevEdges[index + 1].source;
+        prevEdges[index + 1].source = prevEdges[index - 1].target;
+        prevEdges.splice(index, 1);
+        return prevEdges;
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (clicked !== 0) {
+      adjustEdges();
+    }
+  }, [clicked]);
 
   return (
     <>
@@ -45,7 +68,7 @@ const ActionNode = ({ data }: NodeProps<Action>) => {
               <Dialog>
                 <DialogTrigger asChild>
                   {data.actionId.length === 0 ? (
-                    <Button variant="outline">Action</Button>
+                    <span>Action</span>
                   ) : (
                     <div className="flex items-center gap-2 flex-1">
                       <img src={data.actionImg} className="w-6 h-6" />

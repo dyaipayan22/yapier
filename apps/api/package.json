@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "pnpm run build && node dist/index.js",
-    "build": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --format=esm",
+    "build": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --format=esm ",
     "start": "node dist/index.js",
     "clean": "rm -rf dist"
   },

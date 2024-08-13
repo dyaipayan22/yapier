@@ -11,16 +11,16 @@ export const createZap = asyncHandler(
     if (!userId) throw new Error("User not authenticated");
     const { actions, availableTriggerId } = req.body;
 
-    await prisma.$transaction(async (tx) => {
+    const zapId = await prisma.$transaction(async (tx) => {
       const zap = await tx.zap.create({
         data: {
           userId,
           triggerId: "",
           actions: {
-            create: actions.map((x, index) => ({
+            create: actions.map((x: any, index: number) => ({
               actionId: x.availableActionId,
               sortingOrder: index,
-              metaData: x.actionMetadata,
+              metadata: x.actionMetadata,
             })),
           },
         },
@@ -42,9 +42,9 @@ export const createZap = asyncHandler(
         },
       });
 
-      res.status(200).json(new ApiResponse(200, zap, "Zap created"));
       return zap.id;
     });
+    res.status(200).json(new ApiResponse(200, zapId, "Zap created"));
   }
 );
 
