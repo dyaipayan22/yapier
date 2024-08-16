@@ -237,6 +237,9 @@ importers:
       '@repo/database':
         specifier: workspace:*
         version: link:../../packages/database
+      '@repo/mailer':
+        specifier: workspace:*
+        version: link:../../packages/mailer
       kafkajs:
         specifier: ^2.2.4
         version: 2.2.4

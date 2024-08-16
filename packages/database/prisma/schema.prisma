@@ -25,6 +25,8 @@ model Zap {
   user          User        @relation(fields: [userId], references: [id])
   actions       Action[]
   zapRuns       ZapRun[]
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @default(now())
 }
 
 model Trigger{
@@ -66,6 +68,8 @@ model ZapRun{
   zapId         String
   zap           Zap           @relation(fields: [zapId], references: [id])
   zapRunOutbox  ZapRunOutbox?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @default(now())
 }
 
 model ZapRunOutbox{

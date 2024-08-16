@@ -1,17 +1,18 @@
-import prisma from '@repo/database';
-import { kafka } from './config/kafka';
+import prisma from "@repo/database";
+import { kafka } from "./config/kafka";
 
 export async function queuePendingTasks() {
   const producer = kafka.producer();
   await producer.connect();
-
+  console.log("Producer connected");
   while (1) {
     const pendingRows = await prisma.zapRunOutbox.findMany({
       take: 10,
     });
+    console.log(pendingRows);
 
     producer.send({
-      topic: `${process.env.KAFKA_TOPIC_NAME}`,
+      topic: "zap-events",
       messages: pendingRows.map((row) => {
         return {
           value: JSON.stringify({ zapRunId: row.zapRunId, stage: 0 }),

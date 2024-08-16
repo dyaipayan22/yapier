@@ -1,6 +1,7 @@
-import { kafka } from './config/kafka';
-import prisma from '@repo/database';
-
+import { kafka } from "./config/kafka";
+import prisma, { JsonObject } from "@repo/database";
+import { parse } from "./parser";
+import { sendEmail } from "@repo/mailer";
 export async function executeZap() {
   const consumer = kafka.consumer({ groupId: `${process.env.KAFKA_GROUP_ID}` });
   await consumer.connect();
@@ -44,24 +45,30 @@ export async function executeZap() {
       );
 
       if (!currentAction) {
-        console.log('Current action not found');
+        console.log("Current action not found");
         return;
       }
 
       const zapRunMetadata = zapRunDetails?.metadata;
 
-      // if (currentAction.type.id === "email") {
-      //   const body = parse((currentAction.metadata as JsonObject)?.body as string, zapRunMetadata);
-      //   const to = parse((currentAction.metadata as JsonObject)?.email as string, zapRunMetadata);
-      //   console.log(`Sending out email to ${to} body is ${body}`)
-      //   await sendEmail(to, body);
-      // }
+      if (currentAction.type.id === "email") {
+        const body = parse(
+          (currentAction.metadata as JsonObject)?.body as string,
+          zapRunMetadata
+        );
+        const to = parse(
+          (currentAction.metadata as JsonObject)?.email as string,
+          zapRunMetadata
+        );
+        console.log(`Sending out email to ${to} body is ${body}`);
+        await sendEmail(to, body);
+      }
 
       const lastStage = (zapRunDetails?.zap?.actions?.length || 1) - 1;
       if (lastStage !== stage) {
-        console.log('Pushing back to queue');
+        console.log("Pushing back to queue");
         await producer.send({
-          topic: '',
+          topic: "zap-events",
           messages: [
             {
               value: JSON.stringify({
@@ -73,11 +80,11 @@ export async function executeZap() {
         });
       }
 
-      console.log('Processing done');
+      console.log("Processing done");
 
       await consumer.commitOffsets([
         {
-          topic: `${process.env.KAFKA_TOPIC_NAME}`,
+          topic: "zap-events",
           partition: partition,
           offset: (parseInt(message.offset) + 1).toString(),
         },
