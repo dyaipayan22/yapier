@@ -4,6 +4,8 @@ CREATE TABLE "User" (
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
+    "verified" BOOLEAN NOT NULL DEFAULT false,
+    "verificationOtp" INTEGER NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -13,6 +15,8 @@ CREATE TABLE "Zap" (
     "id" TEXT NOT NULL,
     "triggerId" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Zap_pkey" PRIMARY KEY ("id")
 );
@@ -20,6 +24,7 @@ CREATE TABLE "Zap" (
 -- CreateTable
 CREATE TABLE "Trigger" (
     "id" TEXT NOT NULL,
+    "metadata" JSONB NOT NULL DEFAULT '{}',
     "zapId" TEXT NOT NULL,
     "triggerId" TEXT NOT NULL,
 
@@ -29,6 +34,7 @@ CREATE TABLE "Trigger" (
 -- CreateTable
 CREATE TABLE "Action" (
     "id" TEXT NOT NULL,
+    "metadata" JSONB NOT NULL DEFAULT '{}',
     "zapId" TEXT NOT NULL,
     "actionId" TEXT NOT NULL,
     "sortingOrder" INTEGER NOT NULL DEFAULT 0,
@@ -40,6 +46,7 @@ CREATE TABLE "Action" (
 CREATE TABLE "AvailableActions" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "image" TEXT NOT NULL,
 
     CONSTRAINT "AvailableActions_pkey" PRIMARY KEY ("id")
 );
@@ -48,6 +55,7 @@ CREATE TABLE "AvailableActions" (
 CREATE TABLE "AvailableTriggers" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "image" TEXT NOT NULL,
 
     CONSTRAINT "AvailableTriggers_pkey" PRIMARY KEY ("id")
 );
@@ -57,6 +65,8 @@ CREATE TABLE "ZapRun" (
     "id" TEXT NOT NULL,
     "metadata" JSONB NOT NULL,
     "zapId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "ZapRun_pkey" PRIMARY KEY ("id")
 );

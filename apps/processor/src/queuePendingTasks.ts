@@ -19,7 +19,6 @@ export async function queuePendingTasks() {
         };
       }),
     });
-
     await prisma.zapRunOutbox.deleteMany({
       where: {
         id: {
@@ -27,5 +26,6 @@ export async function queuePendingTasks() {
         },
       },
     });
+    await new Promise((r) => setTimeout(r, 3000));
   }
 }

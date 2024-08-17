@@ -17,12 +17,13 @@ app.post("/hooks/catch/:userId/:zapId", async (req, res) => {
           metadata,
         },
       });
-
+      console.log("Run", run);
       const outbox = await tx.zapRunOutbox.create({
         data: {
           zapRunId: run.id,
         },
       });
+      console.log("Outbox", outbox);
     });
 
     res.json("Webhook received");
