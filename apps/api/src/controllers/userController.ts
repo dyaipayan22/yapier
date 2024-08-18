@@ -26,7 +26,7 @@ export const registerUser = asyncHandler(
         verificationOtp: parseInt(otp),
       },
     });
-    await sendEmail(user.email, "Welcome to Yapier");
+    // await sendEmail(user.email, "Welcome to Yapier");
     const sanitizedUser = sanitizedUserSchema.parse(user);
     res
       .status(200)
