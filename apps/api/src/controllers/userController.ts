@@ -5,6 +5,7 @@ import { generateOtp } from "../utils/generateOtp";
 import { asyncHandler } from "../utils/asyncHandler";
 import { ApiResponse } from "../utils/apiResponse";
 import { SanitizedUser, sanitizedUserSchema } from "@repo/schema";
+import { sendEmail } from "@repo/mailer";
 
 export const registerUser = asyncHandler(
   async (req: Request, res: Response) => {
@@ -27,7 +28,6 @@ export const registerUser = asyncHandler(
     });
 
     const sanitizedUser = sanitizedUserSchema.parse(user);
-
     res
       .status(200)
       .json(new ApiResponse<SanitizedUser>(200, sanitizedUser, "User created"));

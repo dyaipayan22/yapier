@@ -40,6 +40,8 @@ export const zapSchema = z.object({
       image: z.string(),
     }),
   }),
+  createdAt: z.date(),
+  updatedAt: z.date(),
 });
 
 export type Zap = z.infer<typeof zapSchema>;

@@ -1,9 +1,11 @@
-import { Hero } from '@/components/Hero';
+import { Hero } from "@/components/Hero";
+import HeroVideo from "@/components/HeroVideo";
 
 const Home = () => {
   return (
-    <div>
+    <div className="flex flex-col gap-8">
       <Hero />
+      <HeroVideo />
     </div>
   );
 };

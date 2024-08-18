@@ -5,19 +5,26 @@ import { sendEmail } from "@repo/mailer";
 export async function executeZap() {
   const consumer = kafka.consumer({ groupId: `${process.env.KAFKA_GROUP_ID}` });
   await consumer.connect();
+  console.log("Consumer connected");
 
   const producer = kafka.producer();
   await producer.connect();
+  console.log("Producer connected");
 
   await consumer.subscribe({
     topic: `${process.env.KAFKA_TOPIC_NAME}`,
     fromBeginning: true,
   });
+  console.log("Kafka subscribed");
 
   await consumer.run({
     autoCommit: false,
     eachMessage: async ({ topic, partition, message }) => {
-      console.log({ partition, offset: message.offset, value: message.value });
+      console.log({
+        partition,
+        offset: message.offset,
+        value: message.value?.toString(),
+      });
 
       if (!message.value?.toString()) return;
 
@@ -39,6 +46,7 @@ export async function executeZap() {
           },
         },
       });
+      console.log("Zap Run Details");
 
       const currentAction = zapRunDetails?.zap.actions.find(
         (x) => x.sortingOrder === stage
@@ -63,6 +71,8 @@ export async function executeZap() {
         console.log(`Sending out email to ${to} body is ${body}`);
         await sendEmail(to, body);
       }
+
+      await new Promise((r) => setTimeout(r, 500));
 
       const lastStage = (zapRunDetails?.zap?.actions?.length || 1) - 1;
       if (lastStage !== stage) {

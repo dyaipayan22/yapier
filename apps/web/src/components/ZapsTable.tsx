@@ -7,6 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "./ui/table";
+import { format } from "date-fns";
 import { Zap } from "@repo/schema";
 import { useAxiosPrivate } from "@/hooks/useAxiosPrivate";
 
@@ -29,8 +30,7 @@ const ZapsTable = () => {
         <TableRow>
           <TableHead>Trigger</TableHead>
           <TableHead>Actions</TableHead>
-          <TableHead>Zap</TableHead>
-          {/* <TableHead>Webhook</TableHead> */}
+          <TableHead>Webhook</TableHead>
           <TableHead>Created at</TableHead>
         </TableRow>
       </TableHeader>
@@ -52,11 +52,10 @@ const ZapsTable = () => {
                 ))}
               </div>
             </TableCell>
-            <TableCell>{zap.id}</TableCell>
-            {/* <TableCell>
-              {`${import.meta.env.HOOKS_SERVER_URL}/hooks/catch/${zap.userId}/${zap.id}`}
-            </TableCell> */}
-            <TableCell>Today</TableCell>
+            <TableCell>
+              {`${import.meta.env.VITE_HOOKS_SERVER_URL}/hooks/catch/${zap.userId}/${zap.id}`}
+            </TableCell>
+            <TableCell>{format(zap.createdAt, "do MMM yyyy")}</TableCell>
           </TableRow>
         ))}
       </TableBody>
