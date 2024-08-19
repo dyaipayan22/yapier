@@ -3,11 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "start": "node dist/index.js",
     "dev": "pnpm run clean && pnpm run build && pnpm run start",
-    "build": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --format=esm",
+    "build": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --format=cjs",
     "clean": "rm -rf dist"
   },
   "keywords": [],
@@ -15,12 +14,14 @@
   "license": "ISC",
   "dependencies": {
     "@repo/database": "workspace:*",
-    "@repo/mailer": "workspace:*",
-    "kafkajs": "^2.2.4"
+    "googleapis": "^142.0.0",
+    "kafkajs": "^2.2.4",
+    "nodemailer": "^6.9.14"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
+    "@types/nodemailer": "^6.4.15",
     "esbuild": "^0.23.0"
   }
 }

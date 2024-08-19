@@ -1,7 +1,7 @@
 import { kafka } from "./config/kafka";
 import prisma, { JsonObject } from "@repo/database";
 import { parse } from "./parser";
-import { sendEmail } from "@repo/mailer";
+import { sendEmail } from "./mail";
 export async function executeZap() {
   const consumer = kafka.consumer({ groupId: `${process.env.KAFKA_GROUP_ID}` });
   await consumer.connect();
