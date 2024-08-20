@@ -5,14 +5,12 @@ import {
   useNodesState,
   useEdgesState,
   NodeTypes,
-  EdgeTypes,
   ReactFlowProvider,
   BackgroundVariant,
 } from "@xyflow/react";
 import { initialEdges, initialNodes } from "./workflow-constants";
 import TriggerNode from "./TriggerNode";
 import ActionNode from "./ActionNode";
-import CustomEdge from "./CustomEdge";
 import { Button } from "../ui/button";
 import { useAxiosPrivate } from "@/hooks/useAxiosPrivate";
 import { useEffect, useState } from "react";
@@ -22,10 +20,6 @@ import { useNavigate } from "react-router-dom";
 const nodeTypes: NodeTypes = {
   trigger: TriggerNode,
   action: ActionNode,
-};
-
-const edgeTypes: EdgeTypes = {
-  custom: CustomEdge,
 };
 
 const Flow = () => {
@@ -90,7 +84,6 @@ const Flow = () => {
         nodes={nodes}
         edges={edges}
         nodeTypes={nodeTypes}
-        edgeTypes={edgeTypes}
         zoomOnScroll={false}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
