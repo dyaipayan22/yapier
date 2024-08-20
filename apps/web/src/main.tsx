@@ -5,10 +5,10 @@ import "./index.css";
 import { Toaster } from "./components/ui/sonner.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  // <React.StrictMode>
   <>
-    <App />
-    <Toaster richColors />
-    {/* </React.StrictMode> */}
+    <React.StrictMode>
+      <App />
+      <Toaster richColors />
+    </React.StrictMode>
   </>
 );
