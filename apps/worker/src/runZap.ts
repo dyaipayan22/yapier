@@ -1,7 +1,7 @@
 import { kafka } from "./config/kafka";
 import prisma, { JsonObject } from "@repo/database";
 import { parse } from "./parser";
-import { sendEmail } from "./mail";
+import { sendEmail } from "@repo/mailer";
 export async function executeZap() {
   const consumer = kafka.consumer({ groupId: `${process.env.KAFKA_GROUP_ID}` });
   await consumer.connect();
@@ -69,7 +69,7 @@ export async function executeZap() {
           zapRunMetadata
         );
         console.log(`Sending out email to ${to} body is ${body}`);
-        await sendEmail(to, body);
+        await sendEmail(to, body, "A Yap was executed");
       }
 
       await new Promise((r) => setTimeout(r, 500));

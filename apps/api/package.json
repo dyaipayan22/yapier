@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "pnpm run clean && pnpm run build && pnpm run start",
     "build": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --format=cjs",
-    "start": "node --trace-warnings dist/index.js",
+    "start": "node --env-file=.env dist/index.js",
     "clean": "rm -rf dist"
   },
   "keywords": [],
@@ -19,20 +19,18 @@
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.6",
-    "@types/nodemailer": "^6.4.15",
     "@types/otp-generator": "^4.0.2",
     "dotenv": "^16.4.5",
     "esbuild": "^0.23.0"
   },
   "dependencies": {
     "@repo/database": "workspace:*",
+    "@repo/mailer": "workspace:*",
     "@repo/schema": "workspace:*",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "express": "^4.19.2",
-    "googleapis": "^142.0.0",
     "jsonwebtoken": "^9.0.2",
-    "nodemailer": "^6.9.14",
     "otp-generator": "^4.0.1"
   }
 }

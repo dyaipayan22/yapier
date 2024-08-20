@@ -14,14 +14,12 @@
   "license": "ISC",
   "dependencies": {
     "@repo/database": "workspace:*",
-    "googleapis": "^142.0.0",
-    "kafkajs": "^2.2.4",
-    "nodemailer": "^6.9.14"
+    "@repo/mailer": "workspace:*",
+    "kafkajs": "^2.2.4"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "@types/nodemailer": "^6.4.15",
     "esbuild": "^0.23.0"
   }
 }

@@ -5,7 +5,7 @@ import { generateOtp } from "../utils/generateOtp";
 import { asyncHandler } from "../utils/asyncHandler";
 import { ApiResponse } from "../utils/apiResponse";
 import { SanitizedUser, sanitizedUserSchema } from "@repo/schema";
-import { sendEmail } from "../lib/mail";
+import { sendEmail } from "@repo/mailer";
 
 export const registerUser = asyncHandler(
   async (req: Request, res: Response) => {
@@ -26,7 +26,11 @@ export const registerUser = asyncHandler(
         verificationOtp: parseInt(otp),
       },
     });
-    await sendEmail(user.email, "Welcome to Yapier");
+    await sendEmail(
+      user.email,
+      "We are excited to have you onboard. Have a great time automating and relaxing",
+      "Welcome to Yapier"
+    );
     const sanitizedUser = sanitizedUserSchema.parse(user);
     res
       .status(200)
