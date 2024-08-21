@@ -1,6 +1,8 @@
 import prisma from "@repo/database";
 import { kafka } from "./config/kafka";
 
+const TOPIC_NAME = process.env.KAFKA_TOPIC_NAME as string;
+
 export async function queuePendingTasks() {
   const producer = kafka.producer();
   await producer.connect();
@@ -12,7 +14,7 @@ export async function queuePendingTasks() {
     console.log(pendingRows);
 
     producer.send({
-      topic: "zap-events",
+      topic: TOPIC_NAME,
       messages: pendingRows.map((row) => {
         return {
           value: JSON.stringify({ zapRunId: row.zapRunId, stage: 0 }),

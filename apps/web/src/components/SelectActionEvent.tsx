@@ -19,10 +19,13 @@ const SelectActionEvent = () => {
 
   return (
     <Sheet>
-      <SheetTrigger>
+      <SheetTrigger disabled={!actionNode?.data.actionId}>
         {actionNode?.data?.metadata.length === 0 ? (
-          <Button variant={"link"} className="w-full justify-start">
-            Select the event
+          <Button
+            variant={"ghost"}
+            className="w-full justify-start text-destructive text-center"
+          >
+            Select the event to perform
           </Button>
         ) : (
           <Label className="text-base">Event configured</Label>

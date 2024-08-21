@@ -19,12 +19,12 @@ type Trigger = Node<
 const TriggerNode = ({ data }: NodeProps<Trigger>) => {
   return (
     <>
-      <div className="w-[326px] p-2.5 border-2 border-dashed border-secondary rounded-md bg-white">
+      <div className="w-[326px] p-2.5 border-2 border-dashed border-secondary rounded-md bg-white h-[90px]">
         <div className="flex flex-col gap-4">
           <Dialog>
             <DialogTrigger asChild>
               {data.triggerId.length === 0 ? (
-                <Button variant={"outline"} className="w-min">
+                <Button variant={"secondary"} className="w-min">
                   Trigger
                 </Button>
               ) : (

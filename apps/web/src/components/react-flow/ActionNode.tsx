@@ -19,6 +19,7 @@ import {
 import { Label } from "../ui/label";
 import SelectActionEvent from "../SelectActionEvent";
 import { useEffect, useState } from "react";
+import { Button } from "../ui/button";
 
 export type Action = Node<
   { actionId: string; actionName: string; actionImg: string; metadata: string },
@@ -28,8 +29,9 @@ export type Action = Node<
 const ActionNode = ({ data }: NodeProps<Action>) => {
   const [clicked, setClicked] = useState<number>(0);
   const nodeId = useNodeId();
-  const { setNodes, setEdges } = useReactFlow();
+  const { setNodes, setEdges, getNodes } = useReactFlow();
 
+  const nodes = getNodes();
   const deleteNode = () => {
     setNodes((prevNodes) => prevNodes.filter((node) => node.id !== nodeId));
     setClicked((prev) => prev + 1);
@@ -68,7 +70,7 @@ const ActionNode = ({ data }: NodeProps<Action>) => {
               <Dialog>
                 <DialogTrigger asChild>
                   {data.actionId.length === 0 ? (
-                    <span>Action</span>
+                    <Button variant={"secondary"}>Action</Button>
                   ) : (
                     <div className="flex items-center gap-2 flex-1">
                       <img src={data.actionImg} className="w-6 h-6" />
@@ -88,10 +90,12 @@ const ActionNode = ({ data }: NodeProps<Action>) => {
                   <AvailableActions />
                 </DialogContent>
               </Dialog>
-              <TrashIcon
-                className="h-5 w-5 cursor-pointer text-destructive"
-                onClick={deleteNode}
-              />
+              {nodes.length > 2 && (
+                <TrashIcon
+                  className="h-5 w-5 cursor-pointer text-destructive"
+                  onClick={deleteNode}
+                />
+              )}
             </div>
             <SelectActionEvent />
           </div>

@@ -7,6 +7,7 @@ import {
   NodeTypes,
   ReactFlowProvider,
   BackgroundVariant,
+  Controls,
 } from "@xyflow/react";
 import { initialEdges, initialNodes } from "./workflow-constants";
 import TriggerNode from "./TriggerNode";
@@ -72,6 +73,11 @@ const Flow = () => {
     ]);
   };
 
+  const fitViewOptions = {
+    maxZoom: 1,
+    minZoom: 0.5,
+  };
+
   useEffect(() => {
     if (clicked !== 0) {
       addEdge();
@@ -87,8 +93,11 @@ const Flow = () => {
         zoomOnScroll={false}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
+        fitView
+        fitViewOptions={fitViewOptions}
       >
         <Background variant={BackgroundVariant.Lines} gap={10} />
+        <Controls />
         <div className="flex items-center gap-4 absolute right-4 top-4">
           <Button className="z-10" onClick={addNode}>
             Add Node

@@ -31,6 +31,7 @@ const ZapsTable = () => {
           <TableHead>Trigger</TableHead>
           <TableHead>Actions</TableHead>
           <TableHead>Webhook</TableHead>
+          <TableHead>Last Executed</TableHead>
           <TableHead>Created at</TableHead>
         </TableRow>
       </TableHeader>
@@ -55,6 +56,7 @@ const ZapsTable = () => {
             <TableCell>
               {`${import.meta.env.VITE_HOOKS_SERVER_URL}/hooks/catch/${zap.userId}/${zap.id}`}
             </TableCell>
+            <TableCell>{format(zap.createdAt, "do MMM yyyy")}</TableCell>
             <TableCell>{format(zap.createdAt, "do MMM yyyy")}</TableCell>
           </TableRow>
         ))}

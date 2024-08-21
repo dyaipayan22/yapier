@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const emailSelectorSchema = z.object({
-  to: z.string().min(1).email(),
+  email: z.string().min(1),
   body: z.string().min(1),
 });
 

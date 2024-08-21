@@ -14,7 +14,6 @@ export function parse(
       while (text[endPoint] !== endDelimeter) {
         endPoint++;
       }
-
       let stringHoldingValue = text.slice(startIndex + 1, endPoint);
       const keys = stringHoldingValue.split(".");
       let localValues = {
@@ -24,7 +23,8 @@ export function parse(
         if (typeof localValues === "string") {
           localValues = JSON.parse(localValues);
         }
-        localValues = localValues[keys[i] as string];
+        //@ts-ignore
+        localValues = localValues[keys[i]];
       }
       finalString += localValues;
       startIndex = endPoint + 1;

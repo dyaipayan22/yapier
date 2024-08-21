@@ -13,7 +13,7 @@ const EmailSelector = () => {
   const form = useForm<EmailSelector>({
     resolver: zodResolver(emailSelectorSchema),
     defaultValues: {
-      to: "",
+      email: "",
       body: "",
     },
   });
@@ -29,11 +29,11 @@ const EmailSelector = () => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <div className="space-y-4">
           <FormField
-            name="to"
+            name="email"
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>To</FormLabel>
+                <FormLabel>Email</FormLabel>
                 <Input {...field} />
               </FormItem>
             )}

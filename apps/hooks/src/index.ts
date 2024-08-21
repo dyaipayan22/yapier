@@ -17,16 +17,14 @@ app.post("/hooks/catch/:userId/:zapId", async (req, res) => {
           metadata,
         },
       });
-      console.log("Run", run);
-      const outbox = await tx.zapRunOutbox.create({
+      await tx.zapRunOutbox.create({
         data: {
           zapRunId: run.id,
         },
       });
-      console.log("Outbox", outbox);
     });
 
-    res.json("Webhook received");
+    res.json({ message: "Webhook received" });
   } catch (error) {
     console.error("Transaction failed:", error);
     res.status(500).json("Transaction failed");

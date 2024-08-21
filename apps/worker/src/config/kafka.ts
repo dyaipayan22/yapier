@@ -1,6 +1,9 @@
 import { Kafka } from "kafkajs";
 
+const CLIENT_ID = process.env.KAFKA_CLIENT_ID as string;
+const HOST = process.env.KAFKA_HOST as string;
+
 export const kafka = new Kafka({
-  clientId: "outbox-processor",
-  brokers: ["localhost:9092"],
+  clientId: CLIENT_ID,
+  brokers: [HOST],
 });
