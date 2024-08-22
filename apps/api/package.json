@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "pnpm run clean && pnpm run build && pnpm run start",
     "build": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --format=cjs",
-    "start": "node --env-file=.env dist/index.js",
+    "start": "node dist/index.js",
     "clean": "rm -rf dist"
   },
   "keywords": [],
