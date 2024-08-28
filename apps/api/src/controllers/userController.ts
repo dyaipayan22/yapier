@@ -16,14 +16,12 @@ export const registerUser = asyncHandler(
     if (existingUser) throw new Error("User already exists");
 
     const hashedPassword = await hashPassword(password);
-    const otp = generateOtp();
 
     const user = await prisma.user.create({
       data: {
         name,
         email,
         password: hashedPassword,
-        verificationOtp: parseInt(otp),
       },
     });
     await sendEmail(
@@ -48,6 +46,12 @@ export const forgotPassword = asyncHandler(
     }
 
     const otp = generateOtp();
+
+    await prisma.user.update({
+      data: { resetPasswordOtp: otp },
+      where: { email },
+    });
+
     await sendEmail(
       email,
       `Your one time verification code to reset your password is ${otp}`,
@@ -60,12 +64,19 @@ export const forgotPassword = asyncHandler(
 
 export const resetPassword = asyncHandler(
   async (req: Request, res: Response) => {
-    const { email, updatedPassword } = req.body;
+    const { otp, email, updatedPassword } = req.body;
     const existingUser = await prisma.user.findUnique({ where: { email } });
 
     if (!existingUser) {
       throw new Error("User does not exist");
     }
+    if (
+      !existingUser.resetPasswordOtp ||
+      existingUser.resetPasswordOtp !== otp
+    ) {
+      res.status(401).json("Invalid otp");
+    }
+
     const hashedPassword = await hashPassword(updatedPassword);
     const updatedUser = await prisma.user.update({
       data: {
