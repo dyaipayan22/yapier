@@ -1,8 +1,10 @@
-import { useNavigate } from 'react-router-dom';
-import { Button } from './ui/button';
-import { Feature } from './Feature';
+import { useNavigate } from "react-router-dom";
+import { Button } from "./ui/button";
+import { Feature } from "./Feature";
+import { useAuthStore } from "@/store/authStore";
 
 export const Hero = () => {
+  const user = useAuthStore((state) => state.user);
   const navigate = useNavigate();
   return (
     <div className="flex flex-col items-center justify-center">
@@ -17,7 +19,7 @@ export const Hero = () => {
 
       <Button
         onClick={() => {
-          navigate('/sign-up');
+          user ? navigate("/dashboard") : navigate("/sign-up");
         }}
         className="mt-8 px-12 py-6"
       >
@@ -25,9 +27,9 @@ export const Hero = () => {
       </Button>
 
       <div className="flex items-center gap-6 justify-center mt-8 flex-wrap">
-        <Feature title={'Free Forever'} subtitle={'for core features'} />
-        <Feature title={'More apps'} subtitle={'than any other platforms'} />
-        <Feature title={'Cutting Edge'} subtitle={'AI Features'} />
+        <Feature title={"Free Forever"} subtitle={"for core features"} />
+        <Feature title={"More apps"} subtitle={"than any other platforms"} />
+        <Feature title={"Cutting Edge"} subtitle={"AI Features"} />
       </div>
     </div>
   );

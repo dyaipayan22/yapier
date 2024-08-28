@@ -37,3 +37,48 @@ export const registerUser = asyncHandler(
       .json(new ApiResponse<SanitizedUser>(200, sanitizedUser, "User created"));
   }
 );
+
+export const forgotPassword = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { email } = req.body;
+    const existingUser = await prisma.user.findUnique({ where: { email } });
+
+    if (!existingUser) {
+      throw new Error("User does not exist");
+    }
+
+    const otp = generateOtp();
+    await sendEmail(
+      email,
+      `Your one time verification code to reset your password is ${otp}`,
+      "Reset Password"
+    );
+
+    res.status(200).json(new ApiResponse<null>(200, null, "Email sent"));
+  }
+);
+
+export const resetPassword = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { email, updatedPassword } = req.body;
+    const existingUser = await prisma.user.findUnique({ where: { email } });
+
+    if (!existingUser) {
+      throw new Error("User does not exist");
+    }
+    const hashedPassword = await hashPassword(updatedPassword);
+    const updatedUser = await prisma.user.update({
+      data: {
+        password: hashedPassword,
+      },
+      where: { email },
+    });
+    const sanitizedUser = sanitizedUserSchema.parse(updatedUser);
+
+    res
+      .status(200)
+      .json(
+        new ApiResponse<SanitizedUser>(200, sanitizedUser, "Password updated")
+      );
+  }
+);
