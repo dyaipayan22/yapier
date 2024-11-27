@@ -1,5 +1,5 @@
 import prisma from "@repo/database";
-import { kafka } from "./config/kafka";
+import { kafka } from "@repo/kafka";
 
 const TOPIC_NAME = process.env.KAFKA_TOPIC_NAME as string;
 

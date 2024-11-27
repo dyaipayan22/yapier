@@ -1,4 +1,4 @@
-import { kafka } from "./config/kafka";
+import { kafka } from "@repo/kafka";
 import prisma, { JsonObject } from "@repo/database";
 import { parse } from "./parser";
 import { sendEmail } from "@repo/mailer";

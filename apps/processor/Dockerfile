@@ -1,20 +1,20 @@
 
 FROM node:20-alpine AS base
+RUN npm install turbo pnpm --global
+RUN pnpm config set store-dir ~/.pnpm-store
 
 FROM base AS builder
+RUN apk add --no-cache libc6-compat
 RUN apk update
-RUN apk add --no-cache lib6-compact
 
 WORKDIR /app
 
-RUN npm install turbo pnpm --global
-RUN pnpm config set store-dir ~/.pnpm-store
 COPY . .
 RUN turbo prune processor --docker
 
 FROM base AS installer
 RUN apk update
-RUN apk add --no-cache lib6-compact
+RUN apk add --no-cache libc6-compat
 
 WORKDIR /app
 

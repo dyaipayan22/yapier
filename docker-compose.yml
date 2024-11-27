@@ -1,7 +1,66 @@
 services:
-  zapier-db-service:
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: ./apps/api/Dockerfile
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - 8000:8000
+    networks:
+      - app_network
+    env_file:
+      - ./apps/api/.env
+
+  # hooks:
+  #   container_name: hooks
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/hooks/Dockerfile
+  #   restart: always
+  #   depends_on:
+  #     - db
+  #   networks:
+  #     - app_network
+
+  # processor:
+  #   container_name: processor
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/processor/Dockerfile
+  #   restart: always
+  #   depends_on:
+  #     - db
+  #   networks:
+  #     - app_network
+
+  # worker:
+  #   container_name: worker
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/worker/Dockerfile
+  #   restart: always
+  #   networks:
+  #     - app_network
+
+  # web:
+  #   container_name: web
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/web/Dockerfile
+  #   restart: always
+  #   depends_on:
+  #     - db
+  #   ports:
+  #     - 5173:5173
+  #   networks:
+  #     - app_network
+
+  db:
     image: postgres:16-alpine
-    container_name: zapier-db
+    container_name: db
     restart: always
     ports:
       - 5432:5432
@@ -13,3 +72,6 @@ services:
 
 volumes:
   pg_data:
+
+networks:
+  app_network:

@@ -1,5 +1,21 @@
-import dotenv from "dotenv";
+import sgMail from "@sendgrid/mail";
 
-dotenv.config({ path: "./.env" });
+sgMail.setApiKey(process.env.API_KEY as string);
 
-export * from "./email";
+export async function sendEmail(to: string, body: string, subject: string) {
+  try {
+    const email = {
+      to,
+      from: {
+        name: "Yapier",
+        email: process.env.SENDER_EMAIL as string,
+      },
+      subject,
+      text: body,
+      html: `<strong>${body}</strong>`,
+    };
+    await sgMail.send(email);
+  } catch (error) {
+    console.log("Error sending email : ", error);
+  }
+}

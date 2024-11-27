@@ -15,6 +15,7 @@
   "dependencies": {
     "@repo/database": "workspace:*",
     "@repo/mailer": "workspace:*",
+    "@repo/kafka": "workspace:*",
     "kafkajs": "^2.2.4"
   },
   "devDependencies": {
